@@ -1,7 +1,7 @@
 {
-  "name": "import-sort-style-module",
-  "version": "2.4.0",
-  "description": "An import-sort style that groups and sorts by module",
+  "name": "import-sort-style-module-relative-aliases",
+  "version": "0.0.1",
+  "description": "An import-sort style that groups and sorts by module with additional relative aliases whitelist",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --recursive test",
     "watch:test": "mocha -w --compilers ts:ts-node/register,tsx:ts-node/register --recursive test"
   },
-  "author": "Renke Grunwald <renke@renke.org> (https://github.com/renke)",
+  "author": "Fernando Maia <fsmaia@gmail.com> (https://github.com/fsmaia)",
   "repository": "renke/import-sort",
   "license": "ISC",
   "devDependencies": {
@@ -19,6 +19,7 @@
     "@types/mocha": "^2.2.31",
     "@types/node": "^6.0.38",
     "chai": "^3.5.0",
+    "import-sort-parser": "^2.0.14",
     "import-sort-style": "^2.3.0",
     "mocha": "^3.0.2",
     "ts-node": "^1.3.0",
