@@ -1,5 +1,14 @@
 import {IStyleAPI, IStyleItem} from "import-sort-style";
+
 import {IImport} from "import-sort-parser";
+
+function hasDotSegment(imported: IImport): boolean {
+  return imported.moduleName.indexOf('.') === 0;
+}
+
+function hasNotDotSegment(imported: IImport): boolean {
+  return !hasDotSegment(imported);
+}
 
 function isRelativeModule(imported: IImport): boolean {
   const aliases = [".", "actions/", "components/", "constants/", "containers/", "layouts/", "middlewares/", "reducers/", "selectors/", "style/", "stores/", "utils/"];
@@ -30,25 +39,33 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
   } = styleApi;
 
   return [
+    // import … from "fs";
+    {match: isNodeModule, sort: moduleName(naturally), sortNamedMembers: alias(unicode)},
+    {separator: true},
+    
     // import "foo"
     {match: and(hasNoMember, isAbsoluteModule)},
     {separator: true},
 
-    // import "./foo"
-    {match: and(hasNoMember, isRelativeModule)},
+    // import "{relativeAlias}/foo"
+    {match: and(hasNoMember, isRelativeModule, hasNotDotSegment)},
     {separator: true},
 
-    // import … from "fs";
-    {match: isNodeModule, sort: moduleName(naturally), sortNamedMembers: alias(unicode)},
+    // import "./foo"
+    {match: and(hasNoMember, isRelativeModule, hasDotSegment)},
     {separator: true},
 
     // import … from "foo";
     {match: isAbsoluteModule, sort: moduleName(naturally), sortNamedMembers: alias(unicode)},
     {separator: true},
 
+    // import … from "{relativeAlias}/foo";
+    {match: and(isRelativeModule, hasNotDotSegment), sort: moduleName(naturally), sortNamedMembers: alias(unicode)},
+    {separator: true},
+
     // import … from "./foo";
     // import … from "../foo";
-    {match: isRelativeModule, sort: [dotSegmentCount, moduleName(naturally)], sortNamedMembers: alias(unicode)},
+    {match: and(isRelativeModule, hasDotSegment), sort: [dotSegmentCount, moduleName(naturally)], sortNamedMembers: alias(unicode)},
     {separator: true},
   ];
 }
