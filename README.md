@@ -10,6 +10,7 @@ on modules. It intents to receive additional configuration to support relative a
 - "middlewares/"
 - "reducers/"
 - "selectors/"
+- "services/"
 - "style/"
 - "stores/"
 - "utils/"
