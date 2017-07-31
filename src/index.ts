@@ -11,7 +11,7 @@ function hasNotDotSegment(imported: IImport): boolean {
 }
 
 function isRelativeModule(imported: IImport): boolean {
-  const aliases = [".", "actions/", "components/", "constants/", "containers/", "layouts/", "middlewares/", "reducers/", "selectors/", "style/", "stores/", "utils/"];
+  const aliases = [".", "actions/", "components/", "constants/", "containers/", "layouts/", "middlewares/", "reducers/", "selectors/", "services/", "style/", "stores/", "utils/"];
 
   for (let alias of aliases) {
     if (imported.moduleName.indexOf(alias) === 0) {
