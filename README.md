@@ -6,6 +6,8 @@ on modules. It intents to receive additional configuration to support relative a
 - "components/"
 - "constants/"
 - "containers/"
+- "decorators/"
+- "hocs/"
 - "layouts/"
 - "middlewares/"
 - "reducers/"
