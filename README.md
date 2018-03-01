@@ -7,16 +7,36 @@ on modules with relative aliases support.
 package.json:
 ```json
 {
-    //...,
     "importSort": {
         ".js, .jsx, .es6, .es": {
+            "parser": "babylon",
+            "style": "module-alias",
+            "options": {
+                "alias": ["components", "modules"]
+            }
+        },
+        ".ts, .tsx": {
+            "parser": "typescript",
+            "style": "module-alias",
+            "custom": {
+                "alias": ["components", "modules"]
+            }
+        }
+    }
+}
+```
+
+or .sortimportrc:
+```json
+{
+    ".js, .jsx, .es6, .es": {
         "parser": "babylon",
         "style": "module-alias",
         "options": {
             "alias": ["components", "modules"]
         }
-        },
-        ".ts, .tsx": {
+    },
+    ".ts, .tsx": {
         "parser": "typescript",
         "style": "module-alias",
         "custom": {
