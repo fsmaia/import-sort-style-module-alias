@@ -12,7 +12,7 @@
     "watch:test": "mocha -w --compilers ts:ts-node/register,tsx:ts-node/register --recursive test"
   },
   "author": "Fernando Maia <fsmaia@gmail.com> (https://github.com/fsmaia)",
-  "repository": "renke/import-sort",
+  "repository": "fsmaia/import-sort-style-module-alias",
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^3.4.32",
