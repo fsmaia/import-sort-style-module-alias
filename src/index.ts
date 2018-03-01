@@ -4,7 +4,7 @@ import {IImport} from "import-sort-parser";
 
 const hasAlias = (aliases: string[]) => (imported: IImport) => aliases.some((alias: string): boolean => imported.moduleName.indexOf(alias) === 0);
 
-export default function(styleApi: IStyleAPI, aliases: string[]): Array<IStyleItem> {
+export default (styleApi: IStyleAPI, file?: string, options?: any): IStyleItem[] => {
   const {
     alias,
     and,
@@ -19,7 +19,7 @@ export default function(styleApi: IStyleAPI, aliases: string[]): Array<IStyleIte
     unicode,
   } = styleApi;
 
-  const isAliasModule = hasAlias(aliases);
+  const isAliasModule = hasAlias(options.alias || []);
 
   return [
     // import "foo"
