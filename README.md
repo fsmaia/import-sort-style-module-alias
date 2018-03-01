@@ -18,7 +18,7 @@ package.json:
         ".ts, .tsx": {
             "parser": "typescript",
             "style": "module-alias",
-            "custom": {
+            "options": {
                 "alias": ["components", "modules"]
             }
         }
@@ -39,7 +39,7 @@ or .sortimportrc:
     ".ts, .tsx": {
         "parser": "typescript",
         "style": "module-alias",
-        "custom": {
+        "options": {
             "alias": ["components", "modules"]
         }
     }
