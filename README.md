@@ -1,29 +1,45 @@
-# import-sort-style-module
+# import-sort-style-module-alias
 
 A style for [import-sort](https://github.com/renke/import-sort) that is focused
-on modules. It intents to receive additional configuration to support relative aliases whitelist (for example, to use with Webpack). So far it isn't possible to receive configuration (**help wanted**), and for now it just has a common set of React aliases, as following:
-- "actions/"
-- "components/"
-- "constants/"
-- "containers/"
-- "decorators/"
-- "hocs/"
-- "layouts/"
-- "middlewares/"
-- "reducers/"
-- "selectors/"
-- "services/"
-- "style/"
-- "stores/"
-- "utils/"
+on modules with relative aliases support.
+
+## Configuration
+package.json:
+```json
+{
+    //...,
+    "importSort": {
+        ".js, .jsx, .es6, .es": {
+        "parser": "babylon",
+        "style": "module-alias",
+        "custom": {
+            "alias": ["components", "modules"]
+        }
+        },
+        ".ts, .tsx": {
+        "parser": "typescript",
+        "style": "module-alias",
+        "custom": {
+            "alias": ["components", "modules"]
+        }
+    }
+}
+```
+
+## Result
 
 ```js
-// Absolute modules with side effects (not sorted because order may matter)
+// Third-party modules with side effects (not sorted because order may matter)
 import "a";
 import "c";
 import "b";
 
-// Relative modules with side effects (not sorted because order may matter)
+// First-party alias modules with side effects (not sorted because order may matter)
+import "{aliasA}";
+import "{aliasC}";
+import "{aliasB}";
+
+// First-party relative modules with side effects (not sorted because order may matter)
 import "./a";
 import "./c";
 import "./b";
@@ -37,7 +53,11 @@ import aa from "aa";
 import bb from "bb";
 import cc from "cc";
 
-// First-party modules sorted by "relative depth" and then by name
+// First-party alias modules sorted by name
+import aaa from "{aliasAAA}";
+import bbb from "{aliasBBB}";
+
+// First-party relative modules sorted by "relative depth" and then by name
 import aaa from "../../aaa";
 import bbb from "../../bbb";
 import aaaa from "../aaaa";

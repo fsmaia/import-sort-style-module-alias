@@ -1,7 +1,7 @@
 {
-  "name": "import-sort-style-module-relative-aliases",
+  "name": "import-sort-style-module-alias",
   "version": "0.0.5",
-  "description": "An import-sort style that groups and sorts by module with additional relative aliases whitelist",
+  "description": "An import-sort style that groups and sorts by module with relative aliases support",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
