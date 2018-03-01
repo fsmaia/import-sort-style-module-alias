@@ -12,7 +12,7 @@ package.json:
         ".js, .jsx, .es6, .es": {
         "parser": "babylon",
         "style": "module-alias",
-        "custom": {
+        "options": {
             "alias": ["components", "modules"]
         }
         },
