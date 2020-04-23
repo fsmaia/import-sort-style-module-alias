@@ -1,6 +1,5 @@
-import { IStyleAPI, IStyleItem } from 'import-sort-style';
-
 import { IImport } from 'import-sort-parser';
+import { IStyleAPI, IStyleItem } from 'import-sort-style';
 
 export interface Options {
   alias: string[];
@@ -8,7 +7,9 @@ export interface Options {
 
 const hasAlias = (aliases: string[]) => (imported: IImport): boolean =>
   aliases.some(
-    (alias: string): boolean => imported.moduleName.indexOf(alias) === 0
+    (alias: string): boolean =>
+      imported.moduleName === alias ||
+      imported.moduleName.indexOf(`${alias}/`) === 0
   );
 
 export default (
