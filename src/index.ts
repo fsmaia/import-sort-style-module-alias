@@ -3,6 +3,7 @@ import { IStyleAPI, IStyleItem } from 'import-sort-style';
 
 export interface Options {
   alias: string[];
+  overrideBuiltinModules: boolean;
 }
 
 const hasAlias = (aliases: string[]) => (imported: IImport): boolean =>
@@ -15,7 +16,7 @@ const hasAlias = (aliases: string[]) => (imported: IImport): boolean =>
 export default (
   styleApi: IStyleAPI,
   _file?: string,
-  options?: Options
+  { alias: aliases = [], overrideBuiltinModules = true } = {} as Options
 ): IStyleItem[] => {
   const {
     alias,
@@ -31,7 +32,7 @@ export default (
     unicode,
   } = styleApi;
 
-  const isAliasModule = hasAlias((options && options.alias) || []);
+  const isAliasModule = hasAlias(aliases || []);
 
   return [
     // import "foo"
@@ -48,7 +49,9 @@ export default (
 
     // import … from "fs";
     {
-      match: isNodeModule,
+      match: overrideBuiltinModules
+        ? and(isNodeModule, not(isAliasModule))
+        : isNodeModule,
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
