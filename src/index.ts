@@ -1,10 +1,21 @@
-import {IStyleAPI, IStyleItem} from "import-sort-style";
+import { IStyleAPI, IStyleItem } from 'import-sort-style';
 
-import {IImport} from "import-sort-parser";
+import { IImport } from 'import-sort-parser';
 
-const hasAlias = (aliases: string[]) => (imported: IImport) => aliases.some((alias: string): boolean => imported.moduleName.indexOf(alias) === 0);
+export interface Options {
+  alias: string[];
+}
 
-export default (styleApi: IStyleAPI, file?: string, options?: any): IStyleItem[] => {
+const hasAlias = (aliases: string[]) => (imported: IImport): boolean =>
+  aliases.some(
+    (alias: string): boolean => imported.moduleName.indexOf(alias) === 0
+  );
+
+export default (
+  styleApi: IStyleAPI,
+  _file?: string,
+  options?: Options
+): IStyleItem[] => {
   const {
     alias,
     and,
@@ -19,52 +30,52 @@ export default (styleApi: IStyleAPI, file?: string, options?: any): IStyleItem[]
     unicode,
   } = styleApi;
 
-  const isAliasModule = hasAlias(options.alias || []);
+  const isAliasModule = hasAlias((options && options.alias) || []);
 
   return [
     // import "foo"
-    {match: and(hasNoMember, isAbsoluteModule, not(isAliasModule))},
-    {separator: true},
+    { match: and(hasNoMember, isAbsoluteModule, not(isAliasModule)) },
+    { separator: true },
 
     // import "{relativeAlias}/foo"
-    {match: and(hasNoMember, isAbsoluteModule, isAliasModule)},
-    {separator: true},
+    { match: and(hasNoMember, isAbsoluteModule, isAliasModule) },
+    { separator: true },
 
     // import "./foo"
-    {match: and(hasNoMember, isRelativeModule)},
-    {separator: true},
+    { match: and(hasNoMember, isRelativeModule) },
+    { separator: true },
 
     // import … from "fs";
     {
       match: isNodeModule,
       sort: moduleName(naturally),
-      sortNamedMembers: alias(unicode)
+      sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: true },
 
     // import … from "foo";
     {
       match: and(isAbsoluteModule, not(isAliasModule)),
       sort: moduleName(naturally),
-      sortNamedMembers: alias(unicode)
+      sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: true },
 
     // import … from "{relativeAlias}/foo";
     {
       match: and(isAbsoluteModule, isAliasModule),
       sort: moduleName(naturally),
-      sortNamedMembers: alias(unicode)
+      sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: true },
 
     // import … from "./foo";
     // import … from "../foo";
     {
       match: isRelativeModule,
       sort: [dotSegmentCount, moduleName(naturally)],
-      sortNamedMembers: alias(unicode)
+      sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: true },
   ];
-}
+};
