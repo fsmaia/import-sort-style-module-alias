@@ -1,5 +1,11 @@
 # import-sort-style-module-alias
 
+![NPM version](https://img.shields.io/npm/v/import-sort-style-module-alias)
+![Build](https://img.shields.io/github/workflow/status/fsmaia/import-sort-style-module-alias/release/master)
+![NPM bundle size](https://img.shields.io/bundlephobia/min/import-sort-style-module-alias)
+![NPM downloads/mo](https://img.shields.io/npm/dm/import-sort-style-module-alias)
+![License](https://img.shields.io/npm/l/import-sort-style-module-alias)
+
 A style for [import-sort](https://github.com/renke/import-sort) that is focused
 on modules with relative modules alias support.
 
