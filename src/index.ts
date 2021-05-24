@@ -1,22 +1,13 @@
-import { IImport } from 'import-sort-parser';
 import { IStyleAPI, IStyleItem } from 'import-sort-style';
 
 export interface Options {
-  alias: string[];
   overrideBuiltinModules: boolean;
 }
-
-const hasAlias = (aliases: string[]) => (imported: IImport): boolean =>
-  aliases.some(
-    (alias: string): boolean =>
-      imported.moduleName === alias ||
-      imported.moduleName.indexOf(`${alias}/`) === 0
-  );
 
 export default (
   styleApi: IStyleAPI,
   _file?: string,
-  { alias: aliases = [], overrideBuiltinModules = true } = {} as Options
+  { overrideBuiltinModules = true } = {} as Options
 ): IStyleItem[] => {
   const {
     alias,
@@ -32,7 +23,7 @@ export default (
     unicode,
   } = styleApi;
 
-  const isAliasModule = hasAlias(aliases || []);
+  const isAliasModule = not(isNodeModule);
 
   return [
     // import "foo"
