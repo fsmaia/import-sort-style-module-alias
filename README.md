@@ -15,14 +15,9 @@ Previously, we had to fill an `alias` option with the aliases list (e.g. `["comp
 
 Now it auto-detects aliases using the following combined rules:
 
-- Aliases are absolute modules: `isAbsoluteModule`
-- Aliases aren't node modules: `not(isNodeModule)`
-
-## Options
-
-| Name                   | Type    | Description                                                       | Default value |
-| ---------------------- | ------- | ----------------------------------------------------------------- | ------------- |
-| overrideBuiltInModules | boolean | Whether an alias should override a Node built-in module (e.g. fs) | true          |
+- Aliased imports are absolute modules (e.g. `foo`): `isAbsoluteModule`
+- Aliased imports aren't installed modules (e.g. `react`): `not(isInstalledModule(file))`
+- Aliased imports aren't node modules (e.g. `fs`): `not(isNodeModule)`
 
 ## Configuration
 

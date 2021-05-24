@@ -4,11 +4,7 @@ export interface Options {
   overrideBuiltinModules: boolean;
 }
 
-export default (
-  styleApi: IStyleAPI,
-  _file?: string,
-  { overrideBuiltinModules = true } = {} as Options
-): IStyleItem[] => {
+export default (styleApi: IStyleAPI, file: string): IStyleItem[] => {
   const {
     alias,
     and,
@@ -16,22 +12,26 @@ export default (
     hasNoMember,
     isNodeModule,
     isAbsoluteModule,
+    isInstalledModule,
     isRelativeModule,
     moduleName,
     naturally,
     not,
+    or,
     unicode,
   } = styleApi;
 
-  const isAliasModule = not(isNodeModule);
+  const isExternalModule = or(isNodeModule, isInstalledModule(file));
 
   return [
     // import "foo"
-    { match: and(hasNoMember, isAbsoluteModule, not(isAliasModule)) },
+    {
+      match: and(hasNoMember, isAbsoluteModule, isExternalModule),
+    },
     { separator: true },
 
     // import "{relativeAlias}/foo"
-    { match: and(hasNoMember, isAbsoluteModule, isAliasModule) },
+    { match: and(hasNoMember, isAbsoluteModule, not(isExternalModule)) },
     { separator: true },
 
     // import "./foo"
@@ -40,9 +40,7 @@ export default (
 
     // import … from "fs";
     {
-      match: overrideBuiltinModules
-        ? and(isNodeModule, not(isAliasModule))
-        : isNodeModule,
+      match: isNodeModule,
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
@@ -50,7 +48,7 @@ export default (
 
     // import … from "foo";
     {
-      match: and(isAbsoluteModule, not(isAliasModule)),
+      match: and(isAbsoluteModule, isInstalledModule(file)),
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
@@ -58,7 +56,7 @@ export default (
 
     // import … from "{relativeAlias}/foo";
     {
-      match: and(isAbsoluteModule, isAliasModule),
+      match: and(isAbsoluteModule, not(isExternalModule)),
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
