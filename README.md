@@ -42,7 +42,7 @@ package.json:
 }
 ```
 
-or .sortimportrc:
+or .importsortrc:
 
 ```json
 {
