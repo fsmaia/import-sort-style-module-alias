@@ -9,12 +9,15 @@
 A style for [import-sort](https://github.com/renke/import-sort) that is focused
 on modules with relative modules alias support.
 
-## Options
+## Migrating from v1 to v2
 
-| Name                   | Type     | Description                                                       | Default value |
-| ---------------------- | -------- | ----------------------------------------------------------------- | ------------- |
-| alias                  | string[] | List of resolver aliases                                          | []            |
-| overrideBuiltInModules | boolean  | Whether an alias should override a Node built-in module (e.g. fs) | true          |
+Previously, we had to fill an `alias` option with the aliases list (e.g. `["components", "modules"]`).
+
+Now it auto-detects aliases using the following combined rules:
+
+- Aliased imports are absolute modules (e.g. `foo`): `isAbsoluteModule`
+- Aliased imports aren't installed modules (e.g. `react`): `not(isInstalledModule(file))`
+- Aliased imports aren't node modules (e.g. `fs`): `not(isNodeModule)`
 
 ## Configuration
 
